@@ -1,8 +1,7 @@
 name: searchable_slideable_list
-description: A new Flutter package project.
-version: 0.0.1
-author:
-homepage:
+description: flutter_slideable that's searchable
+version: 0.1.0
+homepage: https://github.com/remoteportal/searchable_slideable_list
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
