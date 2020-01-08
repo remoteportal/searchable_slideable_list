@@ -12,7 +12,7 @@ class SearchableSlideableList extends StatefulWidget {
 class _SearchableSlideableListState extends State<SearchableSlideableList> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    Widget wid = ListView.builder(
       itemCount: 100,
       itemBuilder: (context, index) {
         return Slidable(
@@ -51,6 +51,24 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
         );
       },
     );
+
+//    wid = Container(
+//        child: Text('xxxxx'), color: Colors.red, height: 200, width: 200);
+
+    //TODO
+    //HELP: can't detect downward gesture when child is flutter_slidable
+    var gd = GestureDetector(
+      onVerticalDragStart: (DragStartDetails details) {
+        print('start');
+      },
+//      onVerticalDragUpdate: _directionIsXAxis ? null : _handleDragUpdate,
+//      onVerticalDragEnd: _directionIsXAxis ? null : _handleDragEnd,
+      behavior: HitTestBehavior.opaque,
+//      behavior: HitTestBehavior.translucent,
+      child: wid,
+    );
+
+    return gd;
   }
 
   @override
