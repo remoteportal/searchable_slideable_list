@@ -1,13 +1,7 @@
-import 'dart:async';
+library searchable_slideable_list;
 
-import 'package:flutter/services.dart';
-
-class SearchableSlideableList {
-  static const MethodChannel _channel =
-      const MethodChannel('searchable_slideable_list');
-
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
+/// A Calculator.
+class Calculator {
+  /// Returns [value] plus 1.
+  int addOne(int value) => value + 1;
 }
