@@ -5,6 +5,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pull_to_reveal/pull_to_reveal.dart';
 
 class SearchableSlideableList extends StatefulWidget {
+  SearchableSlideableList({this.list});
+
+  List<ListTile> list;
+
   @override
   _SearchableSlideableListState createState() =>
       _SearchableSlideableListState();
@@ -25,7 +29,7 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
               child: Text('Items', style: Theme.of(context).textTheme.headline),
             );
           },
-          itemCount: 100,
+          itemCount: widget.list.length,
           revealableHeight: 50,
           itemBuilder: (context, index) {
 //          if (_filter != null && !items[index].contains(_filter)) {
@@ -63,8 +67,9 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
                 child: SlidableDrawerDismissal(),
               ),
               child: ListTile(
-                title: Text('$index'),
-              ),
+                  //HERE
+//                title: Text('$index'),
+                  title: widget.list[index]),
             );
           },
           revealableBuilder: (BuildContext context, RevealableToggler opener,
