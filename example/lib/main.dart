@@ -19,8 +19,9 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<ListTile> list = names.map((String s) {
-      return ListTile(title: Text('$s!'));
+    List<SearchableListTile> list = names.map((String s) {
+      return SearchableListTile(
+          listTile: ListTile(title: Text('$s!')), text: s);
     }).toList();
 
     return Scaffold(
