@@ -2,6 +2,7 @@ library searchable_slideable_list;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pull_to_reveal/pull_to_reveal.dart';
 
 class SearchableSlideableList extends StatefulWidget {
   @override
@@ -10,65 +11,94 @@ class SearchableSlideableList extends StatefulWidget {
 }
 
 class _SearchableSlideableListState extends State<SearchableSlideableList> {
+  String _filter;
+  TextEditingController searchController;
+
   @override
   Widget build(BuildContext context) {
-    Widget wid = ListView.builder(
-      itemCount: 100,
-      itemBuilder: (context, index) {
-        return Slidable(
-          key: ValueKey(index),
-          actionPane: SlidableDrawerActionPane(),
-          actions: <Widget>[
-            IconSlideAction(
-              caption: 'Archive',
-              color: Colors.blue,
-              icon: Icons.archive,
-            ),
-            IconSlideAction(
-              caption: 'Share',
-              color: Colors.indigo,
-              icon: Icons.share,
-            ),
-          ],
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              caption: 'More',
-              color: Colors.grey.shade200,
-              icon: Icons.more_horiz,
-            ),
-            IconSlideAction(
-              caption: 'Delete',
-              color: Colors.red,
-              icon: Icons.delete,
-            ),
-          ],
-          dismissal: SlidableDismissal(
-            child: SlidableDrawerDismissal(),
-          ),
-          child: ListTile(
-            title: Text('$index'),
-          ),
-        );
-      },
+    return Center(
+      child: PullToRevealTopItemList(
+          dividerBuilder: (BuildContext context) {
+            return Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.all(10),
+              child: Text('Items', style: Theme.of(context).textTheme.headline),
+            );
+          },
+          itemCount: 100,
+          revealableHeight: 50,
+          itemBuilder: (context, index) {
+//          if (_filter != null && !items[index].contains(_filter)) {
+//            return Container();
+//          }
+
+            return Slidable(
+              key: ValueKey(index),
+              actionPane: SlidableDrawerActionPane(),
+              actions: <Widget>[
+                IconSlideAction(
+                  caption: 'Archive',
+                  color: Colors.blue,
+                  icon: Icons.archive,
+                ),
+                IconSlideAction(
+                  caption: 'Share',
+                  color: Colors.indigo,
+                  icon: Icons.share,
+                ),
+              ],
+              secondaryActions: <Widget>[
+                IconSlideAction(
+                  caption: 'More',
+                  color: Colors.grey.shade200,
+                  icon: Icons.more_horiz,
+                ),
+                IconSlideAction(
+                  caption: 'Delete',
+                  color: Colors.red,
+                  icon: Icons.delete,
+                ),
+              ],
+              dismissal: SlidableDismissal(
+                child: SlidableDrawerDismissal(),
+              ),
+              child: ListTile(
+                title: Text('$index'),
+              ),
+            );
+          },
+          revealableBuilder: (BuildContext context, RevealableToggler opener,
+              RevealableToggler closer, BoxConstraints constraints) {
+            return Row(
+              key: Key('scrollable-row'),
+              children: <Widget>[
+                SizedBox(width: 10),
+                Flexible(
+                  child: TextFormField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      hintText: 'Search',
+                      suffixIcon: Icon(Icons.search,
+                          color: Theme.of(context).backgroundColor),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.cancel),
+                  onPressed: () {
+                    // Handles closing the `Revealable`
+                    closer(completer: RevealableCompleter.snap);
+                    // Removes any filtering effects
+                    searchController.text = '';
+                    setState(() {
+                      _filter = null;
+                    });
+                  },
+                )
+              ],
+            );
+          }),
     );
-
-//    wid = Container(
-//        child: Text('xxxxx'), color: Colors.red, height: 200, width: 200);
-
-    //TODO
-    //HELP: can't detect downward gesture when child is flutter_slidable
-    var gd = GestureDetector(
-      onVerticalDragStart: (DragStartDetails details) {
-        print('start');
-      },
-//      onVerticalDragUpdate: _directionIsXAxis ? null : _handleDragUpdate,
-//      onVerticalDragEnd: _directionIsXAxis ? null : _handleDragEnd,
-      behavior: HitTestBehavior.opaque,
-//      behavior: HitTestBehavior.translucent,
-      child: wid,
-    );
-
-    return gd;
   }
 
   @override
@@ -78,6 +108,14 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
 
   @override
   void initState() {
+    searchController = TextEditingController();
+    searchController.addListener(_onSearch);
     super.initState();
+  }
+
+  void _onSearch() {
+    setState(() {
+      _filter = searchController.text;
+    });
   }
 }
