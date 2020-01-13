@@ -6,6 +6,23 @@ import 'package:pull_to_reveal/pull_to_reveal.dart';
 
 typedef Widget BuildHighlight(String term);
 
+/*
+BUGS:
+- sliding doesn't work when filtering
+    - right/left gesture grows/shrinks the text filter box instead of invoking slideables
+
+
+INTERIM:
+- until bugs fixed, maybe at least do pull_to_reveal with highlighting
+
+
+TODO:
+- beep and withdrawl character of no match
+- case insensitive match
+- just text
+- make sure clickable as a whole, and can still slide
+- make sure sub-parts can be clickable, and can still slide
+ */
 class SearchableListTile {
   SearchableListTile({this.buildHighlight, this.buildNolight, this.text})
       : assert(buildHighlight != null),
@@ -84,7 +101,6 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
               dismissal: SlidableDismissal(
                 child: SlidableDrawerDismissal(),
               ),
-//              child: ListTile(title: slt.buildNolight()),
               child: slt.buildNolight(),
             );
           },
