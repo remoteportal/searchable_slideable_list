@@ -5,11 +5,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pull_to_reveal/pull_to_reveal.dart';
 
 class SearchableListTile {
-  SearchableListTile({this.listTile, this.text})
-      : assert(listTile != null),
+  SearchableListTile({this.buildHighlight, this.buildNolight, this.text})
+      : assert(buildHighlight != null),
+        assert(buildNolight != null),
         assert(text != null);
 
-  ListTile listTile;
+  Function buildHighlight;
+  Function buildNolight;
   String text;
 }
 
@@ -41,8 +43,17 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
           itemCount: widget.list.length,
           revealableHeight: 50,
           itemBuilder: (context, index) {
-            if (_filter != null && !widget.list[index].text.contains(_filter)) {
-              return Container();
+            SearchableListTile slt = widget.list[index];
+//            if (_filter != null && !slt.text.contains(_filter)) {
+//              return Container();
+//            }
+
+            if (_filter != null && _filter.isNotEmpty) {
+              if (slt.text.contains(_filter)) {
+                return slt.buildHighlight();
+              } else {
+                return Container();
+              }
             }
 
             return Slidable(
@@ -75,9 +86,7 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
               dismissal: SlidableDismissal(
                 child: SlidableDrawerDismissal(),
               ),
-              child: ListTile(
-                  //HERE
-                  title: widget.list[index].listTile),
+              child: ListTile(title: slt.buildNolight()),
             );
           },
           revealableBuilder: (BuildContext context, RevealableToggler opener,

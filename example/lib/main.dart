@@ -21,7 +21,14 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<SearchableListTile> list = names.map((String s) {
       return SearchableListTile(
-          listTile: ListTile(title: Text('$s!')), text: s);
+          buildHighlight: () {
+            return ListTile(title: Text('MATCH $s'));
+          },
+//          listTile: ListTile(title: Text('$s!!')),
+          buildNolight: () {
+            return ListTile(title: Text('$s'));
+          },
+          text: s);
     }).toList();
 
     return Scaffold(
