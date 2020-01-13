@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:searchable_slideable_list/searchable_slideable_list.dart';
+import 'package:substring_highlight/substring_highlight.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,10 +22,9 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<SearchableListTile> list = names.map((String s) {
       return SearchableListTile(
-          buildHighlight: () {
-            return ListTile(title: Text('MATCH $s'));
+          buildHighlight: (String term) {
+            return ListTile(title: SubstringHighlight(term: term, text: s));
           },
-//          listTile: ListTile(title: Text('$s!!')),
           buildNolight: () {
             return ListTile(title: Text('$s'));
           },

@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pull_to_reveal/pull_to_reveal.dart';
 
+typedef Widget BuildHighlight(String term);
+
 class SearchableListTile {
   SearchableListTile({this.buildHighlight, this.buildNolight, this.text})
       : assert(buildHighlight != null),
         assert(buildNolight != null),
         assert(text != null);
 
-  Function buildHighlight;
-  Function buildNolight;
-  String text;
+  final BuildHighlight buildHighlight;
+  final Function buildNolight;
+  final String text;
 }
 
 class SearchableSlideableList extends StatefulWidget {
@@ -50,7 +52,7 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
 
             if (_filter != null && _filter.isNotEmpty) {
               if (slt.text.contains(_filter)) {
-                return slt.buildHighlight();
+                return slt.buildHighlight(_filter);
               } else {
                 return Container();
               }
