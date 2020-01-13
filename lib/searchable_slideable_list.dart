@@ -46,10 +46,6 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
           revealableHeight: 50,
           itemBuilder: (context, index) {
             SearchableListTile slt = widget.list[index];
-//            if (_filter != null && !slt.text.contains(_filter)) {
-//              return Container();
-//            }
-
             if (_filter != null && _filter.isNotEmpty) {
               if (slt.text.contains(_filter)) {
                 return slt.buildHighlight(_filter);
@@ -88,7 +84,8 @@ class _SearchableSlideableListState extends State<SearchableSlideableList> {
               dismissal: SlidableDismissal(
                 child: SlidableDrawerDismissal(),
               ),
-              child: ListTile(title: slt.buildNolight()),
+//              child: ListTile(title: slt.buildNolight()),
+              child: slt.buildNolight(),
             );
           },
           revealableBuilder: (BuildContext context, RevealableToggler opener,

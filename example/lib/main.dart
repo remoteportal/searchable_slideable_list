@@ -24,9 +24,11 @@ class MyHomePage extends StatelessWidget {
       return SearchableListTile(
           buildHighlight: (String term) {
             return ListTile(title: SubstringHighlight(term: term, text: s));
+//            return SubstringHighlight(term: term, text: s);
           },
           buildNolight: () {
             return ListTile(title: Text('$s'));
+//            return Text('$s');
           },
           text: s);
     }).toList();
