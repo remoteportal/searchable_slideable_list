@@ -22,13 +22,22 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<SearchableListTile> list = names.map((String s) {
       return SearchableListTile(
-          buildHighlight: (String term) {
-            return ListTile(
-                title: SubstringHighlight(term: term, text: "($s)"));
+//          buildHighlight: (String term) {
+//            return ListTile(
+//                title: SubstringHighlight(term: term, text: "($s)"));
+////            return SubstringHighlight(term: term, text: s);
+//          },
+//          buildNolight: () {
+//            return ListTile(title: Text('$s'));
+////            return Text('$s');
+//          },
+
+          buildHighlightTile: (String term) {
+            return SubstringHighlight(term: term, text: "($s)");
 //            return SubstringHighlight(term: term, text: s);
           },
-          buildNolight: () {
-            return ListTile(title: Text('$s'));
+          buildNolightTile: () {
+            return Text('$s');
 //            return Text('$s');
           },
           text: s);

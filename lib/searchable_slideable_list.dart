@@ -25,9 +25,9 @@ TODO:
  */
 class SearchableListTile {
   SearchableListTile({this.buildHighlight, this.buildNolight, this.text})
-      : assert(buildHighlight != null),
-        assert(buildNolight != null),
-        assert(text != null);
+      : assert(text != null);
+//        assert(buildHighlight != null),
+//        assert(buildNolight != null);
 
   final BuildHighlight buildHighlight;
   final Function buildNolight;
